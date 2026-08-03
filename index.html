@@ -303,11 +303,13 @@
 <script>
 (function () {
   var backdrop = document.getElementById('shot-backdrop');
+  var zoomButtons = document.querySelectorAll('[data-zoom]');
   function close() {
     document.querySelectorAll('.shot-frame.is-zoomed').forEach(function (f) { f.classList.remove('is-zoomed'); });
     backdrop.classList.remove('is-open');
+    zoomButtons.forEach(function (btn) { btn.textContent = 'Enlarge'; });
   }
-  document.querySelectorAll('[data-zoom]').forEach(function (btn) {
+  zoomButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {
       var frame = document.getElementById(btn.getAttribute('data-zoom'));
       if (frame.classList.contains('is-zoomed')) { close(); return; }

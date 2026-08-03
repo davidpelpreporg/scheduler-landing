@@ -7,7 +7,7 @@
 <meta name="description" content="Purpose-built scheduling for construction fabrication. Deliveries, lists, clean-offs, time off and daily capacity on one calendar the whole company reads." />
 <link rel="stylesheet" href="styles.css" />
 <style>
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 88px; }
   body { margin: 0; text-wrap: pretty; }
   a { color: var(--color-accent); text-decoration: none; }
   a:hover { color: var(--color-accent-300); }
@@ -18,6 +18,16 @@
   @media (max-width: 1280px) { .om-kicker::before { display: none; } }
   /* the screenshot frame and its pop-out: fixed positioning and a blend override
      the state can't carry inline */
+  .btn { white-space: nowrap; }
+  /* mobile: brand-only top bar, trial CTA moved to a thumb-reachable bottom bar */
+  .thumb-bar { display: none; }
+  .nav-sheet { position: fixed; inset: 0; z-index: 300; display: flex; flex-direction: column; padding: 18px 20px 24px; background: color-mix(in srgb, var(--color-bg) 97%, transparent); backdrop-filter: blur(8px); }
+  .nav-sheet a:hover { color: var(--color-accent-300); }
+  @media (max-width: 768px) {
+    .nav-desk { display: none !important; }
+    .thumb-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 150; display: flex; align-items: center; gap: 12px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--color-bg) 88%, transparent); backdrop-filter: blur(12px) saturate(140%); border-top: 1px solid color-mix(in srgb, var(--color-neutral-700) 60%, transparent); }
+    body { padding-bottom: 84px; }
+  }
   .shot-frame { position: relative; width: 100%; }
   .shot-frame .shot-btn { position: absolute; bottom: 12px; right: 12px; z-index: 2; background: color-mix(in srgb, var(--color-bg) 72%, transparent); }
   .shot-backdrop { position: fixed; inset: 0; z-index: 199; background: color-mix(in srgb, black 76%, transparent); }
@@ -25,9 +35,9 @@
   .shot-frame.is-zoomed image-slot { width: 100% !important; height: 100% !important; aspect-ratio: auto !important; }
 
   .shot-frame.is-zoomed img { width: 100% !important; height: 100% !important; aspect-ratio: auto !important; object-fit: contain; }
-  .shot-backdrop.is-open { display: block; }
   .shot-backdrop { display: none; }
-  .btn { white-space: nowrap; }
+  .shot-backdrop.is-open { display: block; }
+  .nav-sheet[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -36,16 +46,18 @@
 
 <div style="background: radial-gradient(1200px 720px at 82% -160px, color-mix(in srgb, var(--color-accent-900) 75%, transparent), transparent 60%), radial-gradient(1100px 800px at -10% 100%, color-mix(in srgb, black 30%, transparent), transparent 55%), var(--color-bg); min-height: 100vh; font-family: var(--font-body); color: var(--color-text);">
 
-  <nav class="nav" style="padding-inline: max(24px, calc((100% - 1200px) / 2 + 24px)); gap: 24px; flex-wrap: wrap;">
+  <nav class="nav" style="position: sticky; top: 0; z-index: 100; padding-inline: max(24px, calc((100% - 1200px) / 2 + 24px)); gap: 24px; flex-wrap: wrap; background: color-mix(in srgb, var(--color-bg) 82%, transparent); backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%);">
     <a href="#top" class="nav-brand" style="margin-right: auto; display: flex; align-items: center; gap: 10px; color: var(--color-text); text-decoration: none;">
       <img src="assets/logo-m7.png" alt="M7" style="height: 26px; width: auto; display: block;" />
       <span>Scheduler</span>
     </a>
-    <a href="#product" style="white-space: nowrap; font-size: 14px;">The app</a>
-    <a href="#disciplines" style="white-space: nowrap; font-size: 14px;">Disciplines</a>
-    <a href="#how" style="white-space: nowrap; font-size: 14px;">Getting started</a>
-    <a href="#faq" style="white-space: nowrap; font-size: 14px;">FAQ</a>
-    <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener" style="white-space: nowrap;">Start free trial</a>
+    <div class="nav-desk" style="display: flex; align-items: center; gap: 24px;">
+      <a href="#product" style="white-space: nowrap; font-size: 14px;">The app</a>
+      <a href="#disciplines" style="white-space: nowrap; font-size: 14px;">Disciplines</a>
+      <a href="#how" style="white-space: nowrap; font-size: 14px;">Getting started</a>
+      <a href="#faq" style="white-space: nowrap; font-size: 14px;">FAQ</a>
+      <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener" style="white-space: nowrap;">Start free trial</a>
+    </div>
   </nav>
 
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 72px);">
@@ -297,30 +309,60 @@
       <span>Fabrication available now. Engineering, Field and Management in development.</span>
     </footer>
   </div>
+
+  <div class="thumb-bar">
+    <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener" style="flex: 1; min-height: 48px; display: flex; align-items: center; justify-content: center;">Start free trial</a>
+    <button type="button" class="btn btn-ghost btn-icon" id="nav-open" aria-label="Open menu" style="min-width: 48px; min-height: 48px; padding: 0;"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+  </div>
+  
+    <div class="nav-sheet" id="nav-sheet" hidden role="dialog" aria-modal="true" aria-label="Menu">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 62%, transparent);">Menu</span>
+        <button type="button" class="btn btn-ghost btn-icon" data-nav-close aria-label="Close menu" style="min-width: 44px; min-height: 44px; padding: 0;"><svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button>
+      </div>
+      <div style="display: flex; flex-direction: column; margin-top: 34px;">
+        <a href="#product" data-nav-close style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 54px; color: var(--color-text);">The app</a>
+        <a href="#disciplines" data-nav-close style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 54px; color: var(--color-text);">Disciplines</a>
+        <a href="#how" data-nav-close style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 54px; color: var(--color-text);">Getting started</a>
+        <a href="#faq" data-nav-close style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 54px; color: var(--color-text);">FAQ</a>
+      </div>
+      <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener" style="margin-top: auto; min-height: 48px; display: flex; align-items: center; justify-content: center;">Start free trial</a>
+    </div>
+  
 </div>
 
 <div class="shot-backdrop" id="shot-backdrop"></div>
 <script>
 (function () {
   var backdrop = document.getElementById('shot-backdrop');
-  var zoomButtons = document.querySelectorAll('[data-zoom]');
-  function close() {
+  function closeZoom() {
     document.querySelectorAll('.shot-frame.is-zoomed').forEach(function (f) { f.classList.remove('is-zoomed'); });
+    document.querySelectorAll('[data-zoom]').forEach(function (b) { b.textContent = 'Enlarge'; });
     backdrop.classList.remove('is-open');
-    zoomButtons.forEach(function (btn) { btn.textContent = 'Enlarge'; });
   }
-  zoomButtons.forEach(function (btn) {
+  document.querySelectorAll('[data-zoom]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var frame = document.getElementById(btn.getAttribute('data-zoom'));
-      if (frame.classList.contains('is-zoomed')) { close(); return; }
-      close();
+      var wasOpen = frame.classList.contains('is-zoomed');
+      closeZoom();
+      if (wasOpen) return;
       frame.classList.add('is-zoomed');
       backdrop.classList.add('is-open');
       btn.textContent = 'Close';
     });
   });
-  backdrop.addEventListener('click', close);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  backdrop.addEventListener('click', closeZoom);
+
+  var sheet = document.getElementById('nav-sheet');
+  var open = document.getElementById('nav-open');
+  function closeSheet() { sheet.hidden = true; }
+  if (open) open.addEventListener('click', function () { sheet.hidden = false; });
+  sheet.querySelectorAll('[data-nav-close], a').forEach(function (el) {
+    el.addEventListener('click', closeSheet);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeZoom(); closeSheet(); }
+  });
 })();
 </script>
 </body>

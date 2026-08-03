@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M7 Scheduler — one schedule for the whole company</title>
+<meta name="description" content="Purpose-built scheduling for construction fabrication. Deliveries, lists, clean-offs, time off and daily capacity on one calendar the whole company reads." />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; text-wrap: pretty; }
+  a { color: var(--color-accent); text-decoration: none; }
+  a:hover { color: var(--color-accent-300); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  /* the kicker's hung accent dash — a pseudo-element, so it can't be inline;
+     it folds away below 1280px, where the page gutter is narrower than the hang */
+  .om-kicker::before { content: ""; position: absolute; left: -64px; top: calc(50% - 0.5px); width: 44px; height: 1px; background: var(--color-accent); }
+  @media (max-width: 1280px) { .om-kicker::before { display: none; } }
+  /* the screenshot frame and its pop-out: fixed positioning and a blend override
+     the state can't carry inline */
+  .shot-frame { position: relative; width: 100%; }
+  .shot-frame .shot-btn { position: absolute; bottom: 12px; right: 12px; z-index: 2; background: color-mix(in srgb, var(--color-bg) 72%, transparent); }
+  .shot-backdrop { position: fixed; inset: 0; z-index: 199; background: color-mix(in srgb, black 76%, transparent); }
+  .shot-frame.is-zoomed { position: fixed; inset: clamp(16px, 4vh, 56px); z-index: 200; width: auto; display: flex; align-items: center; justify-content: center; mix-blend-mode: normal; }
+  .shot-frame.is-zoomed image-slot { width: 100% !important; height: 100% !important; aspect-ratio: auto !important; }
+
+  .shot-frame.is-zoomed img { width: 100% !important; height: 100% !important; aspect-ratio: auto !important; object-fit: contain; }
+  .shot-backdrop.is-open { display: block; }
+  .shot-backdrop { display: none; }
+  .btn { white-space: nowrap; }
+</style>
+</head>
+<body>
+<a id="top"></a>
+
+
+<div style="background: radial-gradient(1200px 720px at 82% -160px, color-mix(in srgb, var(--color-accent-900) 75%, transparent), transparent 60%), radial-gradient(1100px 800px at -10% 100%, color-mix(in srgb, black 30%, transparent), transparent 55%), var(--color-bg); min-height: 100vh; font-family: var(--font-body); color: var(--color-text);">
+
+  <nav class="nav" style="padding-inline: max(24px, calc((100% - 1200px) / 2 + 24px)); gap: 24px; flex-wrap: wrap;">
+    <a href="#top" class="nav-brand" style="margin-right: auto; display: flex; align-items: center; gap: 10px; color: var(--color-text); text-decoration: none;">
+      <img src="assets/logo-m7.png" alt="M7" style="height: 26px; width: auto; display: block;" />
+      <span>Scheduler</span>
+    </a>
+    <a href="#product" style="white-space: nowrap; font-size: 14px;">The app</a>
+    <a href="#disciplines" style="white-space: nowrap; font-size: 14px;">Disciplines</a>
+    <a href="#how" style="white-space: nowrap; font-size: 14px;">Getting started</a>
+    <a href="#faq" style="white-space: nowrap; font-size: 14px;">FAQ</a>
+    <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener" style="white-space: nowrap;">Start free trial</a>
+  </nav>
+
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 72px);">
+    <section style="padding: 112px 0 84px;">
+      
+        <div>
+          <h1 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: clamp(32px, 4.4vw, 62px); line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 0 -0.06em; text-box: trim-both cap alphabetic;">
+            <span style="display: block">One schedule, one source of truth</span>
+            <span style="display: block">for field, engineering, fabrication and management.</span>
+          </h1>
+          <p style="font-size: 17px; line-height: 28px; max-width: 58ch; margin: 34px 0 0; text-box: trim-both cap alphabetic;">Eliminate the guesswork and the questions, streamline the process, get more done. Scheduler is built for construction fabrication — deliveries, cut lists, clean-offs, time off and daily capacity as cards on the days they belong to. Every company gets its own branded copy and its own database. Fabrication is live today; Engineering, Field and Management are on the way.</p>
+        </div>
+      
+      
+      
+      <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: 28px;">
+        <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener">Start free trial</a>
+        <a class="btn btn-ghost" href="#product">See what's in it</a>
+      </div>
+      <p style="font-size: 13px; line-height: 28px; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin: 14px 0 0;">The trial starts with two weeks of example cards already on the calendar — nothing to set up before you can look around.</p>
+    </section>
+
+    <section style="padding: 0 0 28px;">
+      <div style="max-width: 62ch;">
+        <span class="om-kicker" style="position: relative; display: block; font-size: 13px; line-height: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 14px;">Inside the app</span>
+        <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 32px; line-height: 42px; letter-spacing: -0.012em; margin: 0;">Open it and the week is right there</h2>
+        <p style="font-size: 15.5px; line-height: 28px; color: color-mix(in srgb, var(--color-text) 78%, transparent); margin: 20px 0 0; max-width: 48ch;">Colour-coded by card type, filtered by discipline, dark or light, with one control setting how much you're looking at — a single week, three weeks, or five. On a phone the same schedule collapses to the discipline you're working in, so the floor and the truck see what they need without pinching around a desktop layout. And it isn't a viewer: cards get created, rescheduled, attached to and edited from the phone, under the same permissions as the desk.</p>
+      </div>
+      
+      <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; margin: 42px 0 0;">
+        <div style="flex: 3 1 440px;">
+          <figure class="shot-frame" id="shot-desk" style="margin: 0; border: 1px solid var(--color-neutral-700); border-radius: var(--radius-md); padding: 8px; background: color-mix(in srgb, var(--color-neutral-900) 60%, transparent); box-shadow: var(--shadow-md);">
+            <img src="assets/screenshot-desktop.png" alt="Fabrication calendar at three-week density" style="width: 100%; aspect-ratio: 16 / 10; object-fit: contain; border-radius: 6px; display: block;" />
+            
+              <button type="button" class="btn btn-ghost shot-btn" data-zoom="shot-desk">Enlarge</button>
+            
+            
+          </figure>
+          <p style="font-size: 13px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin: 14px 0 0;">Three-week density, with the pending queue held alongside. One button switches between a single week, three weeks and five.</p>
+        </div>
+        <div style="flex: 1 1 200px; max-width: 260px;">
+          <figure class="shot-frame" id="shot-phone" style="margin: 0; border: 1px solid var(--color-neutral-700); border-radius: var(--radius-md); padding: 8px; background: color-mix(in srgb, var(--color-neutral-900) 60%, transparent); box-shadow: var(--shadow-md);">
+            <img src="assets/screenshot-mobile.png" alt="The same schedule on a phone" style="width: 100%; aspect-ratio: 1290 / 2796; object-fit: contain; border-radius: 6px; display: block;" />
+            
+              <button type="button" class="btn btn-ghost shot-btn" data-zoom="shot-phone">Enlarge</button>
+            
+            
+          </figure>
+          <p style="font-size: 13px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin: 14px 0 0;">The same schedule on a phone, at five-week density — the days as a list below it.</p>
+        </div>
+      </div>
+      <p style="font-size: 14px; line-height: 24px; color: color-mix(in srgb, var(--color-text) 62%, transparent); margin: 42px 0 0; max-width: 62ch; padding-top: 20px; background: linear-gradient(to right, transparent, var(--color-neutral-700) 0px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">Which matters, because most of the people on your schedule aren't at a desk: <strong style="font-weight: var(--font-heading-weight); color: var(--color-text);">92% of construction workers use a smartphone every day at work</strong> — JBKnowledge ConTech Report. The phone is where the schedule actually gets read, so it gets the whole app.</p>
+    </section>
+  </div>
+
+  <section id="disciplines" aria-label="Disciplines" style="background: radial-gradient(900px 420px at 85% -40%, color-mix(in srgb, var(--color-section-glow) 70%, transparent), transparent 64%), var(--color-section); padding: 70px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 72px);">
+      <p style="font-size: 13px; line-height: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 64%, transparent); margin: 0 0 28px;">Four disciplines, one schedule</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 42px 28px;">
+        <div>
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: clamp(26px, 2.8vw, 38px); line-height: 1.1; margin: 0; color: var(--color-text); text-box: trim-both cap alphabetic;">Fabrication</p>
+          <p style="margin: 16px 0 0;"><span class="tag tag-accent">Available now</span></p>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 14px 0 0; max-width: 26ch;">Deliveries, lists, clean-offs, time off, misc. and daily capacity — the module you can use today.</p>
+        </div>
+        <div>
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: clamp(26px, 2.8vw, 38px); line-height: 1.1; margin: 0; color: color-mix(in srgb, var(--color-text) 72%, transparent); text-box: trim-both cap alphabetic;">Engineering</p>
+          <p style="margin: 16px 0 0;"><span class="tag tag-outline">In development</span></p>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 14px 0 0; max-width: 26ch;">Detailing and release dates feeding the shop directly, on the same calendar.</p>
+        </div>
+        <div>
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: clamp(26px, 2.8vw, 38px); line-height: 1.1; margin: 0; color: color-mix(in srgb, var(--color-text) 72%, transparent); text-box: trim-both cap alphabetic;">Field</p>
+          <p style="margin: 16px 0 0;"><span class="tag tag-outline">In development</span></p>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 14px 0 0; max-width: 26ch;">Install dates and site needs, pulling from what the shop has committed.</p>
+        </div>
+        <div>
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: clamp(26px, 2.8vw, 38px); line-height: 1.1; margin: 0; color: color-mix(in srgb, var(--color-text) 72%, transparent); text-box: trim-both cap alphabetic;">Management</p>
+          <p style="margin: 16px 0 0;"><span class="tag tag-outline">In development</span></p>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 14px 0 0; max-width: 26ch;">The company view: what's committed, what's at risk, who's carrying it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 72px);">
+
+    <section id="product" style="padding: 98px 0 42px;">
+      <span class="om-kicker" style="position: relative; display: block; font-size: 13px; line-height: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 14px;">What's in the fabrication module</span>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px clamp(24px, 4vw, 72px); align-items: baseline; padding: 42px 0;">
+        <div style="flex: 1 1 260px; display: flex; gap: 20px; align-items: baseline;">
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 15px; line-height: 28px; color: var(--color-accent); font-feature-settings: 'tnum' 1; margin: 0;">01</p>
+          <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 24px; line-height: 28px; letter-spacing: -0.01em; margin: 0;">Cards on days, not bars on a chart</h2>
+        </div>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Work shows up as cards on the calendar: Delivery, List, Clean Off, Time Off, Misc. and Capacity Adj. Drag one to reschedule it. Past days lock themselves so yesterday's schedule stops moving under you.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px clamp(24px, 4vw, 72px); align-items: baseline; padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <div style="flex: 1 1 260px; display: flex; gap: 20px; align-items: baseline;">
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 15px; line-height: 28px; color: var(--color-accent); font-feature-settings: 'tnum' 1; margin: 0;">02</p>
+          <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 24px; line-height: 28px; letter-spacing: -0.01em; margin: 0;">Daily capacity you actually set</h2>
+        </div>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Each day carries a capacity, and a Capacity Adj. card changes it when a crew is short or a shift gets added. You can see the day filling up before you promise it to a PM.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px clamp(24px, 4vw, 72px); align-items: baseline; padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <div style="flex: 1 1 260px; display: flex; gap: 20px; align-items: baseline;">
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 15px; line-height: 28px; color: var(--color-accent); font-feature-settings: 'tnum' 1; margin: 0;">03</p>
+          <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 24px; line-height: 28px; letter-spacing: -0.01em; margin: 0;">Field packages attached to the card</h2>
+        </div>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Drawings and PDFs hang off the card itself, previewed in place instead of downloaded and lost. Tick <em style="font-style: normal; color: var(--color-text);">Field Package Complete</em> when it's reviewed — and get an email the morning a package ships still unchecked.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px clamp(24px, 4vw, 72px); align-items: baseline; padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <div style="flex: 1 1 260px; display: flex; gap: 20px; align-items: baseline;">
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 15px; line-height: 28px; color: var(--color-accent); font-feature-settings: 'tnum' 1; margin: 0;">04</p>
+          <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 24px; line-height: 28px; letter-spacing: -0.01em; margin: 0;">Autodesk Construction Cloud, per person</h2>
+        </div>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Everyone connects their own ACC login and browses the projects and folders they're entitled to. Attach a file and it stays live-linked to ACC, with a synced copy behind it — if the live link ever fails, you still see the drawing, and you're told it may not be the newest.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px clamp(24px, 4vw, 72px); align-items: baseline; padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <div style="flex: 1 1 260px; display: flex; gap: 20px; align-items: baseline;">
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 15px; line-height: 28px; color: var(--color-accent); font-feature-settings: 'tnum' 1; margin: 0;">05</p>
+          <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 24px; line-height: 28px; letter-spacing: -0.01em; margin: 0;">Permissions down to the field</h2>
+        </div>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Not just who gets in — who can see, create, edit and delete each individual field, per discipline. A detailer, a shop lead and a PM can share one card and each touch only their part of it. Every change is written to an audit log.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px clamp(24px, 4vw, 72px); align-items: baseline; padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <div style="flex: 1 1 260px; display: flex; gap: 20px; align-items: baseline;">
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 15px; line-height: 28px; color: var(--color-accent); font-feature-settings: 'tnum' 1; margin: 0;">06</p>
+          <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 24px; line-height: 28px; letter-spacing: -0.01em; margin: 0;">Email that pulls people back to the card</h2>
+        </div>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">A daily fabrication digest, field-package alerts and a notice when new work lands on a team's plate — sent at times your administrator picks, each one linking straight to the card it's about.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px clamp(24px, 4vw, 72px); align-items: baseline; padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <div style="flex: 1 1 260px; display: flex; gap: 20px; align-items: baseline;">
+          <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 15px; line-height: 28px; color: var(--color-accent); font-feature-settings: 'tnum' 1; margin: 0;">07</p>
+          <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 24px; line-height: 28px; letter-spacing: -0.01em; margin: 0;">Change the cards without a developer</h2>
+        </div>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Card types are configuration, not code. Add a field, rename a status, recolor a card type in the admin console and the calendar picks it up — because your shop doesn't run exactly like the shop across town.</p>
+      </div>
+    </section>
+
+    <section style="padding: 0 0 84px;">
+      <span class="om-kicker" style="position: relative; display: block; font-size: 13px; line-height: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 42px;">Also in the box</span>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 42px 42px;">
+        <div>
+          <h3 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 24px; margin: 0;">Your own database</h3>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 10px 0 0;">Each company runs on a separate database and its own deployment. Your schedule doesn't sit in a table next to a competitor's.</p>
+        </div>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 24px; margin: 0;">Your name on it</h3>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 10px 0 0;">Your company name in the app and your own address to log in at.</p>
+        </div>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 24px; margin: 0;">Daily backups</h3>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 10px 0 0;">A rolling backup runs every night, per company, so a bad afternoon isn't a lost month.</p>
+        </div>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 24px; margin: 0;">Audit log</h3>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 10px 0 0;">Who changed the date, and when. Useful the week someone insists they didn't.</p>
+        </div>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 24px; margin: 0;">Help mode</h3>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 10px 0 0;">Turn it on and the screen annotates itself — plus a Getting Started page for new hires.</p>
+        </div>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 24px; margin: 0;">Feedback from inside</h3>
+          <p style="font-size: 14px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 72%, transparent); margin: 10px 0 0;">Anyone can send a note from the app. It reaches a person who works in this trade.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" style="padding: 0 0 84px;">
+      <span class="om-kicker" style="position: relative; display: block; font-size: 13px; line-height: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 28px;">Getting started</span>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 28px;">
+        <div class="card">
+          <p class="card-kicker" style="font-feature-settings: 'tnum' 1;">Step 01</p>
+          <h3 class="card-title">Look around a working schedule</h3>
+          <p class="card-body">The trial opens on two weeks of example cards across all six card types — you're reading a real calendar, not an empty grid.</p>
+        </div>
+        <div class="card">
+          <p class="card-kicker" style="font-feature-settings: 'tnum' 1;">Step 02</p>
+          <h3 class="card-title">Put one of your own jobs in</h3>
+          <p class="card-body">Add your jobs, teams and resources, then schedule the job that's causing the most noise this week.</p>
+        </div>
+        <div class="card">
+          <p class="card-kicker" style="font-feature-settings: 'tnum' 1;">Step 03</p>
+          <h3 class="card-title">Bring the rest of the shop in</h3>
+          <p class="card-body">Set permission types for detailing, the floor and the PMs, switch on the daily digest, and connect ACC if you use it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" style="padding: 0 0 70px;">
+      <span class="om-kicker" style="position: relative; display: block; font-size: 13px; line-height: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 42px;">Questions</span>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 14px clamp(24px, 5vw, 72px); padding: 0 0 42px;">
+        <h3 style="flex: 1 1 260px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 19px; line-height: 28px; margin: 0; max-width: 30ch;">Who is this for?</h3>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Fabrication and MEP companies: shop owners and GMs, production and shop-floor managers, detailers and CAD leads, and the project managers and estimators who live off their dates.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 14px clamp(24px, 5vw, 72px); padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <h3 style="flex: 1 1 260px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 19px; line-height: 28px; margin: 0; max-width: 30ch;">What's in the free trial?</h3>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">The whole Fabrication module, seeded with example cards so there's something to look at on day one. Trial accounts can see everything and edit their own work. Length and terms are confirmed when you sign up.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 14px clamp(24px, 5vw, 72px); padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <h3 style="flex: 1 1 260px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 19px; line-height: 28px; margin: 0; max-width: 30ch;">Is our data mixed in with other companies'?</h3>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">No. Every company gets its own database and its own deployment, branded with your company name — not one shared database with a column separating you from everyone else.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 14px clamp(24px, 5vw, 72px); padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <h3 style="flex: 1 1 260px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 19px; line-height: 28px; margin: 0; max-width: 30ch;">Does it work on a phone in the shop?</h3>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Yes, and it's the whole app — not a stripped-down viewer. A mobile layout with its own discipline tabs, where you can create, reschedule, attach and edit exactly as you would at a desk. It runs in the browser; there's nothing to install.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 14px clamp(24px, 5vw, 72px); padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <h3 style="flex: 1 1 260px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 19px; line-height: 28px; margin: 0; max-width: 30ch;">Do we have to give up the tools we already use?</h3>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">No. Start with the schedule — the part spreadsheets handle worst — and keep drawings in Autodesk Construction Cloud where they already live; the app reaches into ACC rather than asking you to move anything.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 14px clamp(24px, 5vw, 72px); padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <h3 style="flex: 1 1 260px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 19px; line-height: 28px; margin: 0; max-width: 30ch;">When do Engineering, Field and Management arrive?</h3>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">They're in development on the same calendar and the same data model as Fabrication, so what you set up now keeps working when they land. Trial companies see them first.</p>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 14px clamp(24px, 5vw, 72px); padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
+        <h3 style="flex: 1 1 260px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 19px; line-height: 28px; margin: 0; max-width: 30ch;">What does it cost?</h3>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Per active user — you pay for the people actually using it, not a shelf of unused seats. Plans are being finalised; run the trial first and we'll walk you through the numbers.</p>
+      </div>
+    </section>
+
+    <hr style="height: 1px; border: 0; margin: 0; background: linear-gradient(to right, transparent, var(--color-divider) 48px calc(100% - 48px), transparent);" />
+
+    <section style="padding: 70px 0 56px;">
+      <h3 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 32px; line-height: 42px; letter-spacing: -0.012em; margin: 0;">Put one real job on the calendar. Free.</h3>
+      <p style="font-size: 15.5px; line-height: 28px; color: color-mix(in srgb, var(--color-text) 78%, transparent); margin: 20px 0 0; max-width: 58ch;">Take the job currently living on a whiteboard and three spreadsheets, put it into the fabrication schedule, and see the week the way your shop actually runs it.</p>
+      <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: 28px;">
+        <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener">Start free trial</a>
+        <a class="btn btn-ghost" href="#faq">Read the questions first</a>
+      </div>
+    </section>
+
+    <footer style="padding: 56px 0; font-size: 13px; line-height: 28px; color: color-mix(in srgb, var(--color-text) 55%, transparent); display: flex; gap: 28px; flex-wrap: wrap; justify-content: space-between;">
+      <span>M7 Scheduler — built for the construction trades, by people in them.</span>
+      <span>Fabrication available now. Engineering, Field and Management in development.</span>
+    </footer>
+  </div>
+</div>
+
+<div class="shot-backdrop" id="shot-backdrop"></div>
+<script>
+(function () {
+  var backdrop = document.getElementById('shot-backdrop');
+  function close() {
+    document.querySelectorAll('.shot-frame.is-zoomed').forEach(function (f) { f.classList.remove('is-zoomed'); });
+    backdrop.classList.remove('is-open');
+  }
+  document.querySelectorAll('[data-zoom]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var frame = document.getElementById(btn.getAttribute('data-zoom'));
+      if (frame.classList.contains('is-zoomed')) { close(); return; }
+      close();
+      frame.classList.add('is-zoomed');
+      backdrop.classList.add('is-open');
+      btn.textContent = 'Close';
+    });
+  });
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
+</body>
+</html>

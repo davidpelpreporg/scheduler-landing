@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>M7 Scheduler — one schedule for the whole company</title>
-<meta name="description" content="Purpose-built scheduling for construction fabrication. Deliveries, lists, clean-offs, time off and daily capacity on one calendar the whole company reads." />
+<meta name="description" content="Purpose-built scheduling for MEP companies and fabrication shops. Deliveries, cut lists, clean-offs, time off and daily capacity on one calendar the whole company reads." />
 <link rel="stylesheet" href="styles.css" />
 <style>
   html { scroll-behavior: smooth; scroll-padding-top: 88px; }
@@ -19,14 +19,13 @@
   /* the screenshot frame and its pop-out: fixed positioning and a blend override
      the state can't carry inline */
   .btn { white-space: nowrap; }
-  /* mobile: brand-only top bar, trial CTA moved to a thumb-reachable bottom bar */
-  .thumb-bar { display: none; }
+  /* mobile: the desktop link row is replaced by a compact trial button + menu sheet */
+  .nav-mob { display: none; }
   .nav-sheet { position: fixed; inset: 0; z-index: 300; display: flex; flex-direction: column; padding: 18px 20px 24px; background: color-mix(in srgb, var(--color-bg) 97%, transparent); backdrop-filter: blur(8px); }
   .nav-sheet a:hover { color: var(--color-accent-300); }
   @media (max-width: 768px) {
     .nav-desk { display: none !important; }
-    .thumb-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 150; display: flex; align-items: center; gap: 12px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--color-bg) 88%, transparent); backdrop-filter: blur(12px) saturate(140%); border-top: 1px solid color-mix(in srgb, var(--color-neutral-700) 60%, transparent); }
-    body { padding-bottom: 84px; }
+    .nav-mob { display: flex; }
   }
   .shot-frame { position: relative; width: 100%; }
   .shot-frame .shot-btn { position: absolute; bottom: 12px; right: 12px; z-index: 2; background: color-mix(in srgb, var(--color-bg) 72%, transparent); }
@@ -48,15 +47,19 @@
 
   <nav class="nav" style="position: sticky; top: 0; z-index: 100; padding-inline: max(24px, calc((100% - 1200px) / 2 + 24px)); gap: 24px; flex-wrap: wrap; background: color-mix(in srgb, var(--color-bg) 82%, transparent); backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%);">
     <a href="#top" class="nav-brand" style="margin-right: auto; display: flex; align-items: center; gap: 10px; color: var(--color-text); text-decoration: none;">
-      <img src="assets/logo-m7.png" alt="M7" style="height: 26px; width: auto; display: block;" />
+      <img src="assets/logo-m7.png" alt="M7" style="height: 26px; width: auto; display: block;">
       <span>Scheduler</span>
     </a>
     <div class="nav-desk" style="display: flex; align-items: center; gap: 24px;">
-      <a href="#product" style="white-space: nowrap; font-size: 14px;">The app</a>
+      <a href="#product" style="white-space: nowrap; font-size: 14px;">The App</a>
       <a href="#disciplines" style="white-space: nowrap; font-size: 14px;">Disciplines</a>
       <a href="#how" style="white-space: nowrap; font-size: 14px;">Getting started</a>
       <a href="#faq" style="white-space: nowrap; font-size: 14px;">FAQ</a>
       <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener" style="white-space: nowrap;">Start free trial</a>
+    </div>
+    <div class="nav-mob" style="align-items: center; gap: 10px;">
+      <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener" style="white-space: nowrap; font-size: 13px; padding: 0 13px; min-height: 44px; display: flex; align-items: center;">Free trial</a>
+      <button type="button" class="btn btn-ghost btn-icon" id="nav-open" aria-label="Open menu" style="min-width: 44px; min-height: 44px; padding: 0;"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path></svg></button>
     </div>
   </nav>
 
@@ -68,7 +71,7 @@
             <span style="display: block">One schedule, one source of truth</span>
             <span style="display: block">for field, engineering, fabrication and management.</span>
           </h1>
-          <p style="font-size: 17px; line-height: 28px; max-width: 58ch; margin: 34px 0 0; text-box: trim-both cap alphabetic;">Eliminate the guesswork and the questions, streamline the process, get more done. Scheduler is built for construction fabrication — deliveries, cut lists, clean-offs, time off and daily capacity as cards on the days they belong to. Every company gets its own branded copy and its own database. Fabrication is live today; Engineering, Field and Management are on the way.</p>
+          <p style="font-size: 17px; line-height: 28px; max-width: 58ch; margin: 34px 0 0; text-box: trim-both cap alphabetic;">Eliminate the guesswork and the questions, streamline the process, get more done. Scheduler is built for MEP companies and fabrication shops — scheduling, deliveries, cut lists, clean-offs, time off and daily capacity as cards on the days they belong to. Every company gets its own branded copy and its own database. Fabrication is live today; Engineering, Field and Management are on the way.</p>
         </div>
       
       
@@ -84,7 +87,7 @@
       <div style="max-width: 62ch;">
         <span class="om-kicker" style="position: relative; display: block; font-size: 13px; line-height: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 14px;">Inside the app</span>
         <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 32px; line-height: 42px; letter-spacing: -0.012em; margin: 0;">Open it and the week is right there</h2>
-        <p style="font-size: 15.5px; line-height: 28px; color: color-mix(in srgb, var(--color-text) 78%, transparent); margin: 20px 0 0; max-width: 48ch;">Colour-coded by card type, filtered by discipline, dark or light, with one control setting how much you're looking at — a single week, three weeks, or five. On a phone the same schedule collapses to the discipline you're working in, so the floor and the truck see what they need without pinching around a desktop layout. And it isn't a viewer: cards get created, rescheduled, attached to and edited from the phone, under the same permissions as the desk.</p>
+        <p style="font-size: 15.5px; line-height: 28px; color: color-mix(in srgb, var(--color-text) 78%, transparent); margin: 20px 0 0; max-width: 48ch;">Color-coded by card type, filtered by discipline, dark or light, with one density control setting how much you're looking at — a single week, three weeks, or five. On a phone the same schedule collapses to the discipline you're working in, so the shop foreman, engineers, project managers and field crews all see what they need without pinching around a desktop layout. And it isn't a viewer: cards get created, rescheduled, attached to and edited from the phone, with the same features as the desktop version.</p>
       </div>
       
       <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; margin: 42px 0 0;">
@@ -109,7 +112,7 @@
           <p style="font-size: 13px; line-height: 22px; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin: 14px 0 0;">The same schedule on a phone, at five-week density — the days as a list below it.</p>
         </div>
       </div>
-      <p style="font-size: 14px; line-height: 24px; color: color-mix(in srgb, var(--color-text) 62%, transparent); margin: 42px 0 0; max-width: 62ch; padding-top: 20px; background: linear-gradient(to right, transparent, var(--color-neutral-700) 0px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">Which matters, because most of the people on your schedule aren't at a desk: <strong style="font-weight: var(--font-heading-weight); color: var(--color-text);">92% of construction workers use a smartphone every day at work</strong> — JBKnowledge ConTech Report. The phone is where the schedule actually gets read, so it gets the whole app.</p>
+      <p style="font-size: 14px; line-height: 24px; color: color-mix(in srgb, var(--color-text) 62%, transparent); margin: 42px 0 0; max-width: 62ch; padding-top: 20px; background: linear-gradient(to right, transparent, var(--color-neutral-700) 0px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">Mobile matters, because most of the people on your schedule aren't at a desk: <strong style="font-weight: var(--font-heading-weight); color: var(--color-text);">92% of construction workers use a smartphone every day at work</strong> — JBKnowledge ConTech Report. The phone is where the schedule actually gets read, so it gets the whole app.</p>
     </section>
   </div>
 
@@ -165,9 +168,9 @@
       <div style="display: flex; flex-wrap: wrap; gap: 20px clamp(24px, 4vw, 72px); align-items: baseline; padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
         <div style="flex: 1 1 260px; display: flex; gap: 20px; align-items: baseline;">
           <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 15px; line-height: 28px; color: var(--color-accent); font-feature-settings: 'tnum' 1; margin: 0;">03</p>
-          <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 24px; line-height: 28px; letter-spacing: -0.01em; margin: 0;">Field packages attached to the card</h2>
+          <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 24px; line-height: 28px; letter-spacing: -0.01em; margin: 0;">Fabrication lists and field packages attached to the card</h2>
         </div>
-        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Drawings and PDFs hang off the card itself, previewed in place instead of downloaded and lost. Tick <em style="font-style: normal; color: var(--color-text);">Field Package Complete</em> when it's reviewed — and get an email the morning a package ships still unchecked.</p>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Fabrication lists and shop drawings attach as PDFs to the card itself, previewed in place instead of downloaded and lost. The plan room creates the <em style="font-style: normal; color: var(--color-text);">Field Package</em> from the card — and if any are still missing by the designated time, notifications go out to the team.</p>
       </div>
 
       <div style="display: flex; flex-wrap: wrap; gap: 20px clamp(24px, 4vw, 72px); align-items: baseline; padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
@@ -289,11 +292,11 @@
 
       <div style="display: flex; flex-wrap: wrap; gap: 14px clamp(24px, 5vw, 72px); padding: 42px 0; background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent) top / 100% 1px no-repeat;">
         <h3 style="flex: 1 1 260px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 19px; line-height: 28px; margin: 0; max-width: 30ch;">What does it cost?</h3>
-        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Per active user — you pay for the people actually using it, not a shelf of unused seats. Plans are being finalised; run the trial first and we'll walk you through the numbers.</p>
+        <p style="flex: 2 1 340px; font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 52ch;">Per active user — you pay for the people actually using it, not a shelf of unused seats. Plans are being finalized; early adopters will be offered special pricing, starting at $5 per seat/month.</p>
       </div>
     </section>
 
-    <hr style="height: 1px; border: 0; margin: 0; background: linear-gradient(to right, transparent, var(--color-divider) 48px calc(100% - 48px), transparent);" />
+    <hr style="height: 1px; border: 0; margin: 0; background: linear-gradient(to right, transparent, var(--color-divider) 48px calc(100% - 48px), transparent);">
 
     <section style="padding: 70px 0 56px;">
       <h3 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 32px; line-height: 42px; letter-spacing: -0.012em; margin: 0;">Put one real job on the calendar. Free.</h3>
@@ -310,18 +313,14 @@
     </footer>
   </div>
 
-  <div class="thumb-bar">
-    <a class="btn btn-primary" href="https://trial.scheduler.m7designworks.com/fabrication" target="_blank" rel="noopener" style="flex: 1; min-height: 48px; display: flex; align-items: center; justify-content: center;">Start free trial</a>
-    <button type="button" class="btn btn-ghost btn-icon" id="nav-open" aria-label="Open menu" style="min-width: 48px; min-height: 48px; padding: 0;"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
-  </div>
   
     <div class="nav-sheet" id="nav-sheet" hidden role="dialog" aria-modal="true" aria-label="Menu">
       <div style="display: flex; align-items: center; justify-content: space-between;">
         <span style="font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 62%, transparent);">Menu</span>
-        <button type="button" class="btn btn-ghost btn-icon" data-nav-close aria-label="Close menu" style="min-width: 44px; min-height: 44px; padding: 0;"><svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button>
+        <button type="button" class="btn btn-ghost btn-icon" data-nav-close aria-label="Close menu" style="min-width: 44px; min-height: 44px; padding: 0;"><svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg></button>
       </div>
       <div style="display: flex; flex-direction: column; margin-top: 34px;">
-        <a href="#product" data-nav-close style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 54px; color: var(--color-text);">The app</a>
+        <a href="#product" data-nav-close style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 54px; color: var(--color-text);">The App</a>
         <a href="#disciplines" data-nav-close style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 54px; color: var(--color-text);">Disciplines</a>
         <a href="#how" data-nav-close style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 54px; color: var(--color-text);">Getting started</a>
         <a href="#faq" data-nav-close style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 54px; color: var(--color-text);">FAQ</a>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Get Started — M7 Scheduler</title>
+<meta name="description" content="Tell us about your company and we'll get your own M7 Scheduler set up." />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; text-wrap: pretty; }
+  a { color: var(--color-accent); text-decoration: none; }
+  a:hover { color: var(--color-accent-300); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<a id="top"></a>
+
+<div style="background: var(--color-bg); min-height: 100vh; font-family: var(--font-body); color: var(--color-text);">
+
+  <nav class="nav" style="position: sticky; top: 0; z-index: 100; padding-inline: max(24px, calc((100% - 1200px) / 2 + 24px)); gap: 24px; flex-wrap: wrap; background: color-mix(in srgb, var(--color-bg) 82%, transparent); backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%);">
+    <a href="index.html" class="nav-brand" style="margin-right: auto; display: flex; align-items: center; gap: 10px; color: var(--color-text); text-decoration: none;">
+      <img src="assets/logo-m7.png" alt="M7" style="height: 26px; width: auto; display: block;">
+      <span>Scheduler</span>
+    </a>
+  </nav>
+
+  <div style="max-width: 620px; margin: 0 auto; padding: 72px clamp(20px, 5vw, 72px) 96px;">
+    <span class="om-kicker" style="display: block; font-size: 13px; line-height: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 14px;">Get started</span>
+    <h1 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: clamp(28px, 4vw, 42px); line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 14px;">Tell us about your company</h1>
+    <p style="font-size: 15.5px; line-height: 26px; color: color-mix(in srgb, var(--color-text) 78%, transparent); margin: 0 0 40px;">A few details, and we'll reach out to get your own branded copy of the scheduler set up — its own database, its own login, ready for your first real job.</p>
+
+    <form id="signup-form" style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="field">
+        <label for="company_name">Company name *</label>
+        <input class="input" type="text" id="company_name" name="company_name" required />
+      </div>
+      <div class="field">
+        <label for="contact_name">Your name *</label>
+        <input class="input" type="text" id="contact_name" name="contact_name" required />
+      </div>
+      <div class="field">
+        <label for="contact_email">Email *</label>
+        <input class="input" type="email" id="contact_email" name="contact_email" required />
+      </div>
+      <div class="field">
+        <label for="contact_phone">Phone</label>
+        <input class="input" type="tel" id="contact_phone" name="contact_phone" />
+      </div>
+      <div class="field">
+        <label for="trade">Trade</label>
+        <input class="input" type="text" id="trade" name="trade" placeholder="e.g. Fire Protection, HVAC, Plumbing" />
+      </div>
+      <div class="field">
+        <label for="preferred_subdomain">Preferred subdomain</label>
+        <input class="input" type="text" id="preferred_subdomain" name="preferred_subdomain" placeholder="e.g. acme -> acme.scheduler.m7designworks.com" />
+      </div>
+      <div class="field">
+        <label for="notes">Anything else we should know?</label>
+        <textarea class="input" id="notes" name="notes" rows="4"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" id="submit-btn" style="min-height: 44px;">Send it</button>
+      <p id="form-error" role="alert" style="display: none; font-size: 13px; color: #e08585; margin: 0;"></p>
+    </form>
+
+    <div id="success-state" style="display: none; text-align: center; padding: 40px 0;">
+      <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; margin: 0 0 12px;">Got it — thanks.</h2>
+      <p style="font-size: 15.5px; line-height: 26px; color: color-mix(in srgb, var(--color-text) 78%, transparent); margin: 0 0 24px;">We'll be in touch soon to get your company set up.</p>
+      <a class="btn btn-ghost" href="index.html">Back to home</a>
+    </div>
+  </div>
+
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 72px);">
+    <hr style="height: 1px; border: 0; margin: 0; background: linear-gradient(to right, transparent, var(--color-divider) 48px calc(100% - 48px), transparent);">
+    <footer style="padding: 56px 0; font-size: 13px; line-height: 28px; color: color-mix(in srgb, var(--color-text) 55%, transparent); display: flex; gap: 28px; flex-wrap: wrap; justify-content: space-between;">
+      <span>M7 Scheduler — built for the construction trades, by people in them.</span>
+      <a href="index.html" style="color: color-mix(in srgb, var(--color-text) 55%, transparent);">Back to home</a>
+    </footer>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var CONTROL_PLANE_URL = 'https://uxfxjuyqlquiombeterb.supabase.co';
+  var CONTROL_PLANE_ANON_KEY = 'sb_publishable_CdkzPYeBS6F0g4odlsL7tg_SLKTz8bm';
+
+  var form = document.getElementById('signup-form');
+  var errorEl = document.getElementById('form-error');
+  var submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errorEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    var payload = {
+      company_name: form.company_name.value.trim(),
+      contact_name: form.contact_name.value.trim(),
+      contact_email: form.contact_email.value.trim(),
+      contact_phone: form.contact_phone.value.trim() || null,
+      trade: form.trade.value.trim() || null,
+      preferred_subdomain: form.preferred_subdomain.value.trim() || null,
+      notes: form.notes.value.trim() || null,
+    };
+
+    fetch(CONTROL_PLANE_URL + '/rest/v1/company_signups', {
+      method: 'POST',
+      headers: {
+        'apikey': CONTROL_PLANE_ANON_KEY,
+        'Authorization': 'Bearer ' + CONTROL_PLANE_ANON_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }).then(function (res) {
+      if (!res.ok) {
+        return res.json().then(function (json) {
+          throw new Error(json.message || 'Something went wrong. Please try again.');
+        });
+      }
+      form.style.display = 'none';
+      document.getElementById('success-state').style.display = 'block';
+    }).catch(function (err) {
+      errorEl.textContent = err.message || 'Something went wrong. Please try again.';
+      errorEl.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send it';
+    });
+  });
+})();
+</script>
+</body>
+</html>
